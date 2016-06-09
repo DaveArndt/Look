@@ -57,7 +57,7 @@ void ParseArgs(char **args, Name **files, char **search, char *term,
    }
 
    if (!*search) {
-      printf("usage: look [-df] [-t char] string [file ...]\n");
+      printf("usage: uLook [-df] [-t char] string [file ...]\n");
       exit(2);
    }
 
@@ -219,7 +219,7 @@ void FreeFiles(Name *head) {
 }
 
 int main(int argc, char **argv) {
-   int fd, dictOnly = 0, ignoreCase = 0, numLines, ret;
+   int fd, dictOnly = 0, ignoreCase = 0, numLines, ret = 0;
    char *search = NULL, term = 0;
    Name *files = NULL, *curFile;
    off_t *line;
@@ -236,12 +236,13 @@ int main(int argc, char **argv) {
 
       FindLines(fd, &numLines, &line);
 
-      ret = SearchForString(fd, numLines, line, search, term, dictOnly,
+      ret += SearchForString(fd, numLines, line, search, term, dictOnly,
        ignoreCase);
 
       free(line);
-      FreeFiles(files);
-
-      return ret;
+      curFile = curFile->next;
    }
+
+   FreeFiles(files);
+   return ret > 0;
 }
