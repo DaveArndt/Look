@@ -1,7 +1,0 @@
-https://github.com/McNutty145/357/blob/master/Look.c
-
-To compile:
-Only Look.c required. Just type "make"
-
-To run:
-Look [-df] [-t char] string [file ...]
